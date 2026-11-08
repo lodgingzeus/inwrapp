@@ -101,6 +101,11 @@ Grotesque, Instrument Serif and JetBrains Mono.
 Please never commit a real export, or real names, numbers or messages from one. `.gitignore` already blocks `*.zip`
 and `data/`. Test fixtures under `src/**/__fixtures__/` are synthetic: fake names, fake messages.
 
+## License
+
+[MIT](LICENSE). You're free to use, change and share the code. The fonts keep their own open licences (SIL Open Font
+License).
+
 ## Disclaimer
 
 inwrap is an independent project. It is not affiliated with, endorsed by or connected to Instagram, Meta or Spotify.
