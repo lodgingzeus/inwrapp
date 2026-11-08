@@ -2,9 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>inwrap — your Instagram year, as a story</title>
+    <meta
+      name="description"
+      content="Drop in your Instagram data export and get a tap-through story of your year. It runs in your browser: nothing is uploaded."
+    />
+    <meta name="theme-color" content="#0b0b0c" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Link previews (WhatsApp, iMessage, Slack, X…). __SITE_URL__ is filled in at build time (vite.config.ts). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="inwrap" />
+    <meta property="og:title" content="inwrap — your Instagram year, unfiltered" />
+    <meta
+      property="og:description"
+      content="Your likes, DMs, late nights and favourite people as a tap-through story. Runs in your browser, nothing uploaded."
+    />
+    <meta property="og:url" content="__SITE_URL__/" />
+    <meta property="og:image" content="__SITE_URL__/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="inwrap: your Instagram year, unfiltered. Runs in your browser, nothing uploaded." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="inwrap — your Instagram year, unfiltered" />
+    <meta name="twitter:description" content="Your Instagram year as a tap-through story. Runs in your browser, nothing uploaded." />
+    <meta name="twitter:image" content="__SITE_URL__/og.png" />
   </head>
   <body>
     <div id="root"></div>
