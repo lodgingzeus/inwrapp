@@ -2,6 +2,8 @@ import { useRef, type CSSProperties, type ElementType, type ReactNode } from 're
 import { SplitText } from './gsap'
 import { useSceneTimeline } from './useSceneTimeline'
 
+const COMBINING = /\p{M}/u
+
 interface Props {
   children: ReactNode
   as?: ElementType
@@ -28,20 +30,23 @@ export function SplitReveal({
   const ref = useRef<HTMLElement>(null)
 
   useSceneTimeline(ref, (tl, el) => {
+    // Splitting by character breaks clusters held together by combining marks (Devanagari conjuncts,
+    // emoji variation selectors), so such text reveals word by word instead.
+    const unit = by === 'chars' && COMBINING.test(el.textContent ?? '') ? 'words' : by
     const split = SplitText.create(el, {
-      type: by === 'lines' ? 'lines' : `lines,${by}`,
+      type: unit === 'lines' ? 'lines' : `lines,${unit}`,
       mask: 'lines',
       aria: 'auto',
     })
-    const parts = split[by]
+    const parts = split[unit]
     tl.from(
       parts,
       {
         yPercent: 118,
-        rotate: by === 'chars' ? 8 : 3,
+        rotate: unit === 'chars' ? 8 : 3,
         duration,
         ease: 'expo.out',
-        stagger: stagger ?? (by === 'chars' ? 0.045 : by === 'words' ? 0.08 : 0.14),
+        stagger: stagger ?? (unit === 'chars' ? 0.045 : unit === 'words' ? 0.08 : 0.14),
       },
       at,
     )

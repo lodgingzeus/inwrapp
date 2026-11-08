@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { CountUp, gsap, SplitReveal, Sticker, useSceneTimeline } from '../motion'
 import type { PersonStats } from '../stats/types'
-import { fitCqw } from './fit'
+import { fitCqw, grouped } from './fit'
 
 export interface TopPersonProps {
   person: PersonStats
@@ -9,7 +9,6 @@ export interface TopPersonProps {
 
 const COBALT = 'var(--color-cobalt)'
 const GUM = 'var(--color-bubblegum)'
-const grouped = new Intl.NumberFormat('en-US')
 
 function verdict({ sent, received, total }: PersonStats) {
   const lean = (sent - received) / Math.max(total, 1)
@@ -34,7 +33,7 @@ export function TopPerson({ person }: TopPersonProps) {
   return (
     <div ref={scene} className="absolute inset-0 overflow-hidden" style={{ background: COBALT, color: GUM }}>
       <p className="absolute left-[6cqw] top-[9cqh] font-mono text-[3.4cqw] uppercase tracking-[0.18em]">
-        02 · Messages · your #1
+        Messages · your #1
       </p>
 
       <SplitReveal
@@ -73,7 +72,13 @@ export function TopPerson({ person }: TopPersonProps) {
       >
         <div className="absolute inset-x-[31cqw] top-[12cqw]">
           <p className="flex items-baseline gap-[2cqw]">
-            <CountUp to={person.total} at={3.6} duration={1.4} className="text-[17cqw] leading-none font-extrabold tracking-[-0.04em]" />
+            <CountUp
+              to={person.total}
+              at={3.6}
+              duration={1.4}
+              className="leading-none font-extrabold tracking-[-0.04em]"
+              style={{ fontSize: fitCqw(grouped.format(person.total).length, 17, 58, 0.55) }}
+            />
             <span className="font-serif text-[8cqw] italic">messages</span>
           </p>
           <p className="mt-[2cqw] font-mono text-[3.4cqw] uppercase tracking-[0.12em]">

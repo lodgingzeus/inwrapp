@@ -35,7 +35,7 @@ export function TotalLikes({ total, minutesPerLikeAwake, window }: TotalLikesPro
   return (
     <div ref={scene} className="absolute inset-0 overflow-hidden" style={{ background: CORAL, color: INK }}>
       <p className="absolute left-[6cqw] top-[9cqh] font-mono text-[3.4cqw] uppercase tracking-[0.18em]">
-        01 · Likes · {formatWindow(window.start, window.end)}
+        Likes · {formatWindow(window.start, window.end)}
       </p>
 
       <div className="absolute inset-x-[6cqw] top-[19cqh]">

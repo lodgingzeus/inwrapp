@@ -20,6 +20,9 @@
   --color-plum: #2a0e2e;
   --color-mint: #7cf5c4;
   --color-forest: #06231b;
+  --color-butter: #ffe14d;
+  --color-sky: #9ad8ff;
+  --color-oxblood: #3d0a10;
 }
 
 html,
@@ -96,9 +99,14 @@ body {
   animation: spin 16s linear infinite;
 }
 
+.spin-mid {
+  animation: spin 9s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track,
-  .spin-slow {
+  .spin-slow,
+  .spin-mid {
     animation: none;
   }
 }
