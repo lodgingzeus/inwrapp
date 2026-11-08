@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
 @import '@fontsource/instrument-serif';
 @import '@fontsource/instrument-serif/400-italic.css';
 @import '@fontsource-variable/jetbrains-mono';
@@ -37,3 +37,68 @@ body {
   overflow-x: hidden;
 }
 
+
+/* Story: full screen on phones, a centred 9:16 frame on wider screens. */
+.story-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #050506;
+  overscroll-behavior: none;
+}
+
+.story-frame {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100dvh;
+  container-type: size;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  cursor: pointer;
+}
+
+@media (min-aspect-ratio: 9/16) {
+  .story-frame {
+    width: auto;
+    height: min(calc(100dvh - 32px), 920px);
+    aspect-ratio: 9 / 16;
+    border-radius: 20px;
+  }
+}
+
+/* Holding or pressing space freezes CSS loops (marquees, spinning stickers) too. */
+.story-frame[data-paused='true'] * {
+  animation-play-state: paused !important;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration, 16s) linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin 16s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .spin-slow {
+    animation: none;
+  }
+}
