@@ -8,6 +8,18 @@
   --font-display: 'Bricolage Grotesque Variable', system-ui, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  /* Slide palettes: each pair is one flat block + one ink colour. */
+  --color-lime: #d4ff3a;
+  --color-ink: #0b0b0c;
+  --color-coral: #ff5b3a;
+  --color-bone: #f4f1ea;
+  --color-cobalt: #2340ff;
+  --color-bubblegum: #ff9ad5;
+  --color-tangerine: #ff8a00;
+  --color-plum: #2a0e2e;
+  --color-mint: #7cf5c4;
+  --color-forest: #06231b;
 }
 
 html,
@@ -18,8 +30,10 @@ body,
 
 body {
   margin: 0;
-  background: #0b0b0c;
-  color: #f4f1ea;
+  background: var(--color-ink);
+  color: var(--color-bone);
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
+

@@ -6,5 +6,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   worker: { format: 'es' },
+  // Listen on the LAN so other machines can open http://nixos:5173
+  server: { host: true, allowedHosts: ['nixos'] },
   test: { environment: 'node', include: ['src/**/*.test.ts'] },
 })
