@@ -73,7 +73,7 @@ export default function StoryPlayer({ stats, onExit }: Props) {
     return () => window.removeEventListener('keydown', onKey)
   }, [step, onExit])
 
-  const context = useMemo(() => ({ paused }), [paused])
+  const context = useMemo(() => ({ paused, exit: onExit }), [paused, onExit])
 
   return (
     <div className="story-backdrop">

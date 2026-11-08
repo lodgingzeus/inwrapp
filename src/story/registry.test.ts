@@ -22,6 +22,7 @@ const ALL = [
   'followers',
   'advertisers',
   'interests',
+  'summary',
 ]
 
 const ids = (stats: WrappedStats) => slidesFor(stats).map((s) => s.id)

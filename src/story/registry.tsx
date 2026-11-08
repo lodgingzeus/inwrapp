@@ -18,6 +18,8 @@ import { Watching } from '../slides/Watching'
 import { Followers } from '../slides/Followers'
 import { Advertisers } from '../slides/Advertisers'
 import { Interests } from '../slides/Interests'
+import { posterItems } from '../slides/poster'
+import { Summary } from '../slides/Summary'
 
 export interface Slide {
   id: string
@@ -219,6 +221,16 @@ const SLIDES: AnyDef[] = [
     chrome: 'var(--color-plum)',
     select: ({ interests }) => (interests?.length ? { interests } : null),
     Component: Interests,
+  }),
+  define({
+    id: 'summary',
+    durationMs: 9000,
+    chrome: 'var(--color-lime)',
+    select: (s) => {
+      const items = posterItems(s)
+      return items.length > 0 ? { items, username: s.owner.username, year: YEAR } : null
+    },
+    Component: Summary,
   }),
 ]
 
