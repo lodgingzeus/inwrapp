@@ -5,7 +5,9 @@ import { Grain, ShapeWipe } from '../motion'
 import { StoryContext } from './context'
 import { useFontsReady } from './fonts'
 import { ProgressBars } from './ProgressBars'
-import { slidesFor } from './registry'
+import { saveImage } from '../share/toImage'
+import { slidesFor, YEAR } from './registry'
+import { SlideSnapshot } from './SlideSnapshot'
 import { useStoryClock } from './useStoryClock'
 import { useTapHold } from './useTapHold'
 
@@ -16,6 +18,13 @@ interface Props {
 
 // Taps on the left edge go back, everywhere else goes forward.
 const BACK_ZONE = 0.3
+
+// Controls sit on top of the tap zones, so presses must not reach them.
+const stop = (e: PointerEvent) => e.stopPropagation()
+
+type SaveState = 'idle' | 'saving' | 'saved' | 'failed'
+
+const SAVE_LABEL: Record<SaveState, string> = { idle: 'Save', saving: 'Saving…', saved: 'Saved', failed: 'Retry' }
 
 function usePageHidden() {
   const [hidden, setHidden] = useState(() => document.hidden)
@@ -36,9 +45,25 @@ export default function StoryPlayer({ stats, onExit }: Props) {
   const hidden = usePageHidden()
   const fontsReady = useFontsReady()
   const reduced = useReducedMotion() ?? false
-  const paused = holding || manualPause || hidden || !fontsReady
+  // A save belongs to the slide it was started on; moving on resets the label (and drops the snapshot).
+  const [saving, setSaving] = useState<{ index: number; state: SaveState }>({ index: -1, state: 'idle' })
+  const save = saving.index === pos.index ? saving.state : 'idle'
+  const paused = holding || manualPause || hidden || !fontsReady || save === 'saving'
 
   const slide = slides[pos.index]
+
+  const onSnapshot = useCallback(
+    async (el: HTMLElement) => {
+      const index = pos.index
+      try {
+        const outcome = await saveImage(el, `inwrap-${YEAR}-${slide.id}.png`)
+        setSaving({ index, state: outcome === 'cancelled' ? 'idle' : 'saved' })
+      } catch {
+        setSaving({ index, state: 'failed' })
+      }
+    },
+    [pos.index, slide.id],
+  )
 
   const step = useCallback(
     (by: 1 | -1) => {
@@ -73,7 +98,7 @@ export default function StoryPlayer({ stats, onExit }: Props) {
     return () => window.removeEventListener('keydown', onKey)
   }, [step, onExit])
 
-  const context = useMemo(() => ({ paused, exit: onExit }), [paused, onExit])
+  const context = useMemo(() => ({ paused, still: false, exit: onExit }), [paused, onExit])
 
   return (
     <div className="story-backdrop">
@@ -100,18 +125,32 @@ export default function StoryPlayer({ stats, onExit }: Props) {
 
         <div className="absolute inset-x-3 top-[calc(max(10px,env(safe-area-inset-top))+12px)] z-30 flex items-center justify-end gap-3 font-mono text-[11px] uppercase tracking-[0.16em]" style={{ color: 'var(--chrome)' }}>
           {manualPause && <span>Paused</span>}
+          {/* The summary has its own Save button for the poster. */}
+          {slide.id !== 'summary' && (
+            <button
+              type="button"
+              aria-live="polite"
+              className="h-8 px-1"
+              onPointerDown={stop}
+              onPointerUp={stop}
+              onClick={() => save !== 'saving' && setSaving({ index: pos.index, state: 'saving' })}
+            >
+              {SAVE_LABEL[save]}
+            </button>
+          )}
           <button
             type="button"
             aria-label="Close story"
             className="grid h-8 w-8 place-items-center text-[20px] leading-none"
-            onPointerDown={(e) => e.stopPropagation()}
-            onPointerUp={(e) => e.stopPropagation()}
+            onPointerDown={stop}
+            onPointerUp={stop}
             onClick={onExit}
           >
             ×
           </button>
         </div>
       </section>
+      {save === 'saving' && <SlideSnapshot key={slide.id} node={slide.node} onReady={onSnapshot} />}
     </div>
   )
 }

@@ -11,8 +11,9 @@ export type SceneBuild = (tl: gsap.core.Timeline, el: HTMLElement) => void | (()
  * state, and jumps straight to its end state under prefers-reduced-motion.
  */
 export function useSceneTimeline(scope: RefObject<HTMLElement | null>, build: SceneBuild) {
-  const { paused } = useStory()
-  const reduced = useReducedMotion() ?? false
+  const { paused, still } = useStory()
+  // A still render (saving a slide as an image) shows the end state, like reduced motion.
+  const reduced = (useReducedMotion() ?? false) || still
   const tlRef = useRef<gsap.core.Timeline | null>(null)
   const pausedRef = useRef(paused)
 

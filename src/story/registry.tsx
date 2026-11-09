@@ -49,7 +49,7 @@ function define<P extends object>({ select, Component, ...meta }: SlideDef<P>): 
   }
 }
 
-const YEAR = 2026
+export const YEAR = 2026
 
 const has = <T extends { total: number }>(a: T | undefined): T | null => (a && a.total > 0 ? a : null)
 

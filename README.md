@@ -20,10 +20,25 @@ This is the whole point, so here is exactly what happens:
 
 ## Get your export
 
-1. In Instagram, open **Accounts Center → Your information and permissions → Download your information**.
-2. Pick **JSON** as the format (not HTML) and **last year** as the date range. Media is optional, and leaving it out
-   makes the file much smaller.
-3. Meta emails you when it's ready. Download the `.zip` and drop it into inwrap. Don't unzip it.
+1. **Open Accounts Center.** In the Instagram app, go to your profile, tap the ☰ menu, then **Accounts Center →
+   Your information and permissions**. On a computer, open accountscenter.instagram.com.
+2. **Start an export.** Tap **Download your information** (some versions call it **Export your information**), then
+   **Download or transfer information** or **Create export**. Pick your Instagram account and choose all available
+   information.
+3. **Pick these settings.** Download to your device, then set:
+
+   | Setting | Choose |
+   |---|---|
+   | Format | **JSON**, not HTML |
+   | Date range | Last year |
+   | Media quality | Lower, for a smaller file |
+
+4. **Download and drop it in.** Meta emails or notifies you when it's ready, which can take a few minutes or a couple
+   of days. Go back to the same screen, open **Available downloads** and download the `.zip`. Drop it into inwrap as
+   it is. Don't unzip it.
+
+Menu names move around between app versions, so if a label doesn't match, pick the closest one. The one setting that
+matters is JSON: the HTML export can't be read.
 
 ## What's in the story
 

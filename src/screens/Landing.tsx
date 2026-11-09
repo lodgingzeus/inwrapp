@@ -4,21 +4,46 @@ import { useApp } from '../store'
 import { CARDS } from './cards'
 import StoryCard from './StoryCard'
 
-// Placeholder product name. Pick the real one before a public release (see plan.md).
 const NAME = 'inwrap'
 
-const STEPS = [
+type Step = { title: string; body: ReactNode; settings?: [string, string][] }
+
+// Meta renames these menus from time to time, so each step names the variants we know of.
+const STEPS: Step[] = [
   {
-    title: 'Open Download your information',
-    body: 'In Instagram, go to Accounts Center, then Download your information.',
+    title: 'Open Accounts Center',
+    body: (
+      <>
+        In the Instagram app, go to your profile, tap the ☰ menu, then <b className="font-medium text-[#1d1d1f]">Accounts Center</b> →{' '}
+        <b className="font-medium text-[#1d1d1f]">Your information and permissions</b>. On a computer, open
+        accountscenter.instagram.com.
+      </>
+    ),
   },
   {
-    title: 'Pick JSON and last year',
-    body: 'Choose JSON, not HTML. Media is optional. Leave it out and the file is much smaller.',
+    title: 'Start an export',
+    body: (
+      <>
+        Tap <b className="font-medium text-[#1d1d1f]">Download your information</b> (on some versions it is called{' '}
+        <b className="font-medium text-[#1d1d1f]">Export your information</b>), then{' '}
+        <b className="font-medium text-[#1d1d1f]">Download or transfer information</b> or{' '}
+        <b className="font-medium text-[#1d1d1f]">Create export</b>. Pick your Instagram account and choose all available
+        information.
+      </>
+    ),
   },
   {
-    title: 'Drop the zip here',
-    body: 'Meta emails you when it is ready. Download the .zip and drop it in. No need to unzip.',
+    title: 'Pick these settings',
+    body: 'Choose to download it to your device, then set:',
+    settings: [
+      ['Format', 'JSON, not HTML'],
+      ['Date range', 'Last year'],
+      ['Media quality', 'Lower, for a smaller file'],
+    ],
+  },
+  {
+    title: 'Download and drop it here',
+    body: 'Meta emails or notifies you when it is ready. That can take a few minutes or a couple of days. Go back to the same screen, open Available downloads, and download the .zip. Drop it in as it is. No need to unzip.',
   },
 ]
 
@@ -179,26 +204,42 @@ export default function Landing() {
           <Reveal className="text-center">
             <p className="text-sm font-medium text-[#86868b] lg:text-base">Before you start</p>
             <h2 className="mt-3 text-4xl leading-[1.05] font-light tracking-tight text-balance sm:text-5xl lg:text-6xl">
-              Get your export in three steps.
+              Get your export in four steps.
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-pretty text-[#6e6e73] lg:text-lg">
               Instagram lets you download a copy of your own data. It takes a few taps to ask for it.
             </p>
           </Reveal>
 
-          <ol className="mt-14 grid gap-4 sm:mt-20 sm:grid-cols-3 sm:gap-6">
+          <ol className="mt-14 grid gap-4 sm:mt-20 sm:grid-cols-2 sm:gap-6">
             {STEPS.map((s, i) => (
               <li key={s.title}>
-                <Reveal delay={i * 0.08} className="h-full rounded-3xl bg-[#f4f4f4] p-6 sm:p-7">
+                <Reveal delay={(i % 2) * 0.08} className="h-full rounded-3xl bg-[#f4f4f4] p-6 sm:p-8">
                   <span className="grid size-9 place-items-center rounded-full bg-[#1d1d1f] text-sm font-medium text-white">
                     {i + 1}
                   </span>
                   <h3 className="mt-6 text-xl font-normal tracking-tight sm:text-2xl">{s.title}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-[#6e6e73]">{s.body}</p>
+                  {s.settings && (
+                    <dl className="mt-4 divide-y divide-black/[0.06] rounded-2xl bg-white px-4 text-[15px]">
+                      {s.settings.map(([label, value]) => (
+                        <div key={label} className="flex items-baseline justify-between gap-4 py-3">
+                          <dt className="text-[#6e6e73]">{label}</dt>
+                          <dd className="text-right font-medium">{value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                 </Reveal>
               </li>
             ))}
           </ol>
+          <Reveal>
+            <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-pretty text-[#86868b]">
+              Menu names move around between app versions. If a label doesn’t match exactly, pick the closest one. The
+              one setting that matters is JSON: the HTML export can’t be read.
+            </p>
+          </Reveal>
         </div>
       </section>
 

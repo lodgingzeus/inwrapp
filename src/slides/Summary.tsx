@@ -1,7 +1,7 @@
 import { useRef, useState, type PointerEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { gsap, useSceneTimeline } from '../motion'
-import { POSTER_H, POSTER_W, savePoster } from '../share/toImage'
+import { saveImage, STORY_H, STORY_W } from '../share/toImage'
 import { useStory } from '../story/context'
 import { fitCqw } from './fit'
 import type { PosterItem } from './poster'
@@ -121,7 +121,7 @@ export function Summary(props: SummaryProps) {
     if (!node || save === 'saving') return
     setSave('saving')
     try {
-      const outcome = await savePoster(node, `inwrap-${props.year}.png`)
+      const outcome = await saveImage(node, `inwrap-${props.year}.png`)
       setSave(outcome === 'cancelled' ? 'idle' : 'saved')
     } catch {
       setSave('failed')
@@ -161,7 +161,7 @@ export function Summary(props: SummaryProps) {
 
       {createPortal(
         <div aria-hidden className="pointer-events-none fixed top-0 left-[-10000px]">
-          <div ref={exportNode} style={{ width: POSTER_W, height: POSTER_H }}>
+          <div ref={exportNode} style={{ width: STORY_W, height: STORY_H }}>
             <PosterArt {...props} />
           </div>
         </div>,
